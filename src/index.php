@@ -4,21 +4,10 @@
 <meta charset="UTF-8">
 <title>Awesome charts</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="scripts/Chart.js"></script>
+<script type="text/javascript" src="scripts/canvasjs/canvasjs.min.js"></script>
 </head>
 
-<body>
-	<table>
-		<tr>
-			<td>
-				<canvas id="myChart" width="400" height="400"></canvas>
-			</td>
-			<td>
-				<p id="chart_label">Label</p>
-			</td>
-		</tr>
-	</table>
-	
+<body>	
  <?php 
  require_once 'config/.connection.php'; //MySQL connection info
  require_once 'get_stats.php';
@@ -61,42 +50,48 @@ $finalstats = array_reverse($finalstats0,true);
 echo '<br>'.(time()-$x)." seconds";
 
 ?>
-
+	
 	<script type="text/javascript">
-		$(function(){
-			
-		$('#test').text("hhahh2");
-
-		var options = {
-			animateScale: false,
-			animationSteps : 100,
-			legendTemplate : "<table class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><tr><td style=\"background-color:<%=segments[i].fillColor%>; width:5px;\"></td><td><%if(segments[i].label){%><%=segments[i].label%><%}%></td><td><%=segments[i].value%></td></tr><%}%></table>"
-		};
-
-
-		var data = [
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+		width:1000,
+		height:500,
+      title:{
+        text: "Character usage statistics among the top 5000 players"
+      },
+       data: [
+      {
+         type: "pie",
+       showInLegend: true,	   
+			toolTipContent: "{y} - #percent %",
+       dataPoints: [
+       //{  y: 4181563, legendText:"PS 3", indexLabel: "PlayStation 3" },
 		<?php foreach ($finalstats as $k => $v) { 
 			if (array_key_exists($k,$chardata)) {
 		?> 
 			{
-				value: <?php echo $v; ?>,
-				label: "<?php echo $chardata[$k]["name"]; ?>",
-				color: "<?php echo $chardata[$k]["mc"]; ?>",
-				highlight: "<?php echo $chardata[$k]["hc"]; ?>"
+				y: <?php echo $v; ?>,
+				legendText: "<?php echo $chardata[$k]["name"]; ?>",
+				indexLabel: "<?php echo $chardata[$k]["name"]; ?>"
 			},
 		<?php
 			}
 		}
 		?>
-		];
+       ]
+     }
+     ]
+   });
 
-		var ctx = $("#myChart").get(0).getContext("2d");
+    chart.render();
+  }
+  </script>
 
-		var myChart = new Chart(ctx).Pie(data,options);
-
-		$('#chart_label').html(myChart.generateLegend());
-		});
-	</script>
+   <div id="chartContainer" style="height: 300px; width: 100%;">
+   </div>
+	
+	
 </body>
 
 </html>

@@ -4,24 +4,12 @@
 <meta charset="UTF-8">
 <title>Seasonal stats</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="scripts/Chart.js"></script>
+<script type="text/javascript" src="scripts/canvasjs/canvasjs.min.js"></script>
 </head>
 
 <body>
-	<table>
-		<tr>
-			<td>
-				<canvas id="myChart" width="800" height="400"></canvas>
-			</td>
-			<td>				
-				<form action="">
-					 <button type="button" id="checkall">Check all</button> <button type="button" id="uncheckall">Uncheck all!</button> 
-					 <p id="chart_label">
-					 </p>
-				</form>
-			</td>
-		</tr>
-	</table>
+   <div id="chartContainer" style="height: 300px; width: 100%;">
+   </div>
 	
  <?php 
  require_once 'config/.connection.php'; //MySQL connection info
@@ -100,73 +88,63 @@ if(!$result = $mysqli->query("SELECT character_id, num_users FROM stats_current"
 $mysqli->close();
 
 ?>
+	
+	 <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
 
-	<script type="text/javascript">
-		$(function(){			
-			var datasets_master = [
-				<?php foreach ($chardata as $id => $char) { 
-				?> 
-					{
-						label: "<?php echo $char["name"]; ?>",
-						fillColor: "rgba(220,220,220,0.2)",
-						strokeColor: "<?php echo $char["mc"]; ?>",
-						pointColor: "<?php echo $char["mc"]; ?>",
-						pointStrokeColor: "#fff",
-						pointHighlightFill: "#fff",
-						pointHighlightStroke: "<?php echo $char["hc"]; ?>",
-						data: [
-						<?php foreach ($character_stats[$id] as $v) { 
-								echo $v.",";
-							}
-						?>
-						]
-					},
-				<?php				
-				}
+      title:{
+      text: "Character usage statistics at the end of seasons"
+      },
+      axisX: {
+        valueFormatString: "MMM",
+        interval:1,
+        intervalType: "month"
+      },
+      axisY:{
+        includeZero: false
+
+      },
+      data: [
+	  <?php foreach ($chardata as $id => $char) { 
+		?> 
+			{
+				type: "line",
+				showInLegend: true,
+				lineThickness: 2,
+				name: "<?php echo $char["name"]; ?>",
+				dataPoints: [
+				<?php foreach ($character_stats[$id] as $sid=>$v) { 
+						echo "{x:".$sid.", y:".$v.", label: \"Season ".$sid."\"},";
+					}
 				?>
-				];
-			
-		
-		//Button listeners
-		$( "#checkall" ).click(function() {
-			$('.checkbox').prop('checked', true);
-			reloadChart(false,datasets_master); //all data is shown
-		});
-		$( "#uncheckall" ).click(function() {
-			$('.checkbox').prop('checked', false);
-			reloadChart(true,datasets_master); //all data is shown
-		});
-		
-		reloadChart(false,datasets_master);
-		
-		function reloadChart(check_boxes, data_orig) {
-		if (check_boxes) {
-			var data = {
-				labels: [<?php echo $season_labels; ?>],
-				datasets: []
-			};
-		} else {
-			var data = {
-				labels: [<?php echo $season_labels; ?>],
-				datasets: data_orig
-			};
-		}			
-			
-		var options = {
-			//Boolean - Whether to fill the dataset with a colour
-			datasetFill : false,
-			//String - A legend template
-			legendTemplate : "<table class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><tr><td><span style=\"background-color:<%=datasets[i].strokeColor%>\">XXXX</span><input type=\"checkbox\" class=\"checkbox\" name=\"character\" checked=\"true\" value=\"<%=datasets[i].id%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></td></tr><%}%></table>"
-		};
-
-			//Chart init
-			var ctx = $("#myChart").get(0).getContext("2d");
-			var myLineChart = new Chart(ctx).Line(data, options);
-			$('#chart_label').html(myLineChart.generateLegend());
+				]
+			},
+		<?php				
 		}
-		
-		});
-	</script>
+		?>
+      
+      ],
+	  legend:{
+            cursor:"pointer",
+            itemclick:function(e){
+              if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              	e.dataSeries.visible = false;
+              }
+              else{
+                e.dataSeries.visible = true;
+              }
+              chart.render();
+            }
+          }
+    });
+
+    chart.render();
+  }
+  </script>
+  
+  TODO: Show all / hide all / starstorm only / core only
 </body>
 
 </html>
