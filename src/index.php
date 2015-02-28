@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -11,7 +11,6 @@
  <?php 
  require_once 'config/.connection.php'; //MySQL connection info
  require_once 'get_stats.php';
- require_once 'html_colors.php';
 
 $mysqli = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
 
@@ -24,18 +23,16 @@ if (mysqli_connect_error()) {
             . mysqli_connect_error());
 }
 
-echo 'Success... ' . $mysqli->host_info . "\n<br>";
-
 $sql="SELECT * FROM characters";
 
 // Fetch all
 $chardata = array();
+$mysqli->query("set names 'utf8'");
 if(!$result = $mysqli->query($sql)){
     die('There was an error running the query [' . $mysqli->error . ']');
 } else {
 	while($row = $result->fetch_assoc()){
-		//echo $row['id'] . ' - '.$row['name'].'<br />';
-		$chardata[$row['id']] = array("name"=>$row['name'], "mc" => $row['main_color'], "hc" => $row['highlight_color']);
+		$chardata[$row['id']] = array("name"=>$row['name']);
 	}
 }
 // Free result set
@@ -43,11 +40,9 @@ mysqli_free_result($result);
 
 $mysqli->close();
 
-$x=time(); 
 $finalstats0 = getstats(file_get_contents("http://steamcommunity.com/stats/204300/leaderboards/483348/?xml=1"));
 asort($finalstats0);
 $finalstats = array_reverse($finalstats0,true);
-echo '<br>'.(time()-$x)." seconds";
 
 ?>
 	
