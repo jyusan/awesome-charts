@@ -1,0 +1,40 @@
+#control {
+	margin-left:auto;
+	margin-right:auto;
+	display:inline-block;
+	padding: 10px;
+	background-color: yellow;
+}
+
+/*datatable*/
+thead tr td {
+	font-weight: bold;
+}
+
+td.charname {
+	font-weight: bold;
+}
+
+/*index*/
+table#menu {
+width: 500px; 
+margin-left:auto;
+margin-right:auto;
+border-collapse: collapse;
+border-bottom: 1px solid blue;
+}
+
+table#menu tr td {
+text-align:center;
+}
+
+tr.menu_header {
+border: 2px solid blue;
+padding: 5px;
+}
+
+td.menu_cell {
+border-left: 1px solid blue;
+border-right: 1px solid blue;
+padding: 5px;
+}

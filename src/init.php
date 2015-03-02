@@ -1,7 +1,7 @@
 <?php
 /**
 * Script for saving all previous seasons.
-* From 8 to latest.
+* From 8 to latest, which is provided as a parameter.
 */
 set_time_limit(0); //Can take long time
 
@@ -31,7 +31,4 @@ for($i=8; $i<$current_season; $i++) {
 		echo "Couldn't save data for season ".$i."<br>\n";
 	}
 }
-
-
-
 ?>
