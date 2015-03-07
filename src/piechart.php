@@ -112,8 +112,6 @@ $data = getDataForSingleSeason($first_rank,$last_rank,(($season_id==$current_sea
 </head>
 <body>	
 <center><h1>Character usage statistics</h1>
-<h4>Current settings: <?php echo ($season_id === NULL)?"Current season":("Season ".$season_id);?> ::
-From rank <?php echo $first_rank;?> to <?php echo $last_rank;?></h4>
 
 <div id="control" >
 <form id="controlForm" action="" method="get">
@@ -135,7 +133,6 @@ Last rank: <input type="text" name="last" id="lastRank"/>
 Click on any slice to make it pop out.
 </center>
 <h2>Raw data</h2>
-(The data is based on the leaderboard with each player's most user character)
 <table id="dataTable" class="display" cellspacing="0">
 	<thead>
 		<tr>

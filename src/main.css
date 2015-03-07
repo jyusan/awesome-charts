@@ -1,9 +1,45 @@
+body {
+	background-image: url("img/bg.jpg");
+    background-repeat: no-repeat;
+    background-position: left top;
+	background-attachment: fixed;
+	background-size: 100% auto;
+	color: white;
+}
+
+a, a:visited {
+	color: #70DFF3;
+}
+
+a:hover, a:active {
+	color: #CFBFC9;
+}
+
+ hr { 
+	border: 0; 
+	height: 1px; 
+	background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(10,184,219,0.75), rgba(0,0,0,0)); 
+	background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(10,184,219,0.75), rgba(0,0,0,0)); 
+	background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(10,184,219,0.75), rgba(0,0,0,0)); 
+	background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(10,184,219,0.75), rgba(0,0,0,0)); 
+}
+
 #control {
 	margin-left:auto;
 	margin-right:auto;
 	display:inline-block;
 	padding: 10px;
-	background-color: yellow;
+	background-color: rgb(60,163,180);
+	margin-bottom: 10px;
+}
+
+#control input[type="submit"]:hover {
+	background-color: rgb(176,234,234);
+}
+
+/* chart */
+div#chartContainer {
+	color: black;
 }
 
 /*datatable*/
@@ -15,13 +51,32 @@ td.charname {
 	font-weight: bold;
 }
 
+table#dataTable tr.odd {
+	background-color: rgba(100,98,108,0.75);
+}
+
+table#dataTable tr.odd td.sorting_1 {
+	background-color: rgba(100,98,108,1.0);
+}
+
+table#dataTable tr.even {
+	background-color: rgba(0,87,106,0.75);
+}
+
+table#dataTable tr.even td.sorting_1 {
+	background-color: rgba(0,87,106,1.0);
+}
+
+div#dataTable_info, .dataTables_filter label {
+	color: white;
+}
+
 /*index*/
 table#menu {
 width: 500px; 
 margin-left:auto;
 margin-right:auto;
 border-collapse: collapse;
-border-bottom: 1px solid blue;
 }
 
 table#menu tr td {
@@ -29,12 +84,12 @@ text-align:center;
 }
 
 tr.menu_header {
-border: 2px solid blue;
+border: 0px solid blue;
 padding: 5px;
 }
 
 td.menu_cell {
-border-left: 1px solid blue;
-border-right: 1px solid blue;
-padding: 5px;
+border-left: 0px solid blue;
+border-right: 0px solid blue;
+padding: 5px 5px 20px 5px;
 }

@@ -41,10 +41,10 @@ The website stores the favourite characters of the top 5000 ranked players and h
 <hr/>
 Last update of current leaderboard's data: <?php echo gmdate("D, d M Y H:i:s T",$lastUpdate);?>
 <hr/>
-<h2>Information</h2><br/>
+<h2>Information</h2>
 <a href="http://www.awesomenauts.com/">Awesomenauts</a> is awesome and is &copy; Ronimo Games.<br/>
 This website was made by jyusan (Sue) in 2015. Code is publicly available at <a href="https://github.com/jyusan/awesome-charts">GitHub</a>, anyone is free to rehost/reuse/extend it.<br/>
-More information/discussion available <a href="">at the official forums</a>.
+More information/discussion available <a href="http://www.awesomenauts.com/forum/viewtopic.php?f=6&t=37307">at the official forums</a>.
 	
 </center>	
 </body>

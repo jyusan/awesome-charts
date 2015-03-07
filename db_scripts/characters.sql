@@ -42,7 +42,8 @@ INSERT INTO `characters` (`id`, `name`, `short_name`) VALUES
 (21, 'Ted McPain', 'Ted'),
 (22, 'Sentry X-58', 'Sentry'),
 (23, 'Skree', 'Skree'),
-(24, 'Scoop of Justice', 'Scoop');
+(24, 'Scoop of Justice', 'Scoop'),
+(25,'Nibbs','Nibbs');
 
 --
 -- Indexes for dumped tables
