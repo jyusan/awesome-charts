@@ -3,7 +3,10 @@
 
 //TODO move all queries here?
 class DB {
-	private $SQL_CREATE_SEASON_TABLE = "CREATE TABLE IF NOT EXISTS season_{ID}_stats (rank int(11) NOT NULL, char_id int(11) NOT NULL, PRIMARY KEY(rank)) ";
+	private $SQL_CREATE_SEASON_TABLE = "CREATE TABLE IF NOT EXISTS season_{ID}_stats (rank int(11) NOT NULL, char_id int(11) NOT NULL,"
+	." wins int(11) NOT NULL DEFAULT '0', losses int(11) NOT NULL DEFAULT '0', season_wins int(11) NOT NULL DEFAULT '0',"
+	." season_losses int(11) NOT NULL DEFAULT '0',season_kills int(11) NOT NULL DEFAULT '0',season_deaths int(11) DEFAULT '0',"
+	." prestige int(11) NOT NULL DEFAULT '0',	PRIMARY KEY(rank)) ";
 	private $SQL_GET_CURRENT_SEASON_IDS = "SELECT id,leaderboard_id FROM seasons WHERE start_date <= now() and end_date >= now()";
 	private $SQL_GET_LEADERBOARD_ID = "SELECT leaderboard_id FROM seasons WHERE id = {ID}";
 	private $SQL_SET_CURRENT_UPDATE_TIME = "INSERT INTO key_value_store(id,data) VALUES ('current_updated',UNIX_TIMESTAMP()) ON DUPLICATE KEY UPDATE data=UNIX_TIMESTAMP()";
@@ -115,13 +118,21 @@ class DB {
 	
 	private function saveLeaderboardsData($table_name,$data) {
 		$success = TRUE;
-		$stmt = $this->connection->prepare("INSERT INTO ".$table_name."(rank,char_id) VALUES(?,?) ON DUPLICATE KEY UPDATE char_id=?;");
-		$stmt->bind_param("iii",$r,$c1,$c2);
+		$stmt = $this->connection->prepare("INSERT INTO ".$table_name."(rank, char_id, wins, losses, season_wins, season_losses, season_kills, season_deaths, prestige) VALUES (?,?,?,?,?,?,?,?,?) "
+		."ON DUPLICATE KEY UPDATE char_id=?, wins=?, losses=?, season_wins=?, season_losses=?, season_kills=?, season_deaths=?,prestige=?;");
+		$stmt->bind_param("iiiiiiiiiiiiiiiii",$r,$c,$w,$l,$sw,$sl,$sk,$sd,$p,$c,$w,$l,$sw,$sl,$sk,$sd,$p);
 		
-		foreach ( $data as $rank => $char) {
+		foreach ( $data as $rank => $data) {
 			$r=$rank;
-			$c1=$char;
-			$c2=$char;
+			$c=$data["fchar"];
+			$w=$data["wins"];
+			$l=$data["losses"];
+			$sw=$data["swins"];
+			$sl=$data["slosses"];
+			$sk=$data["kills"];
+			$sd=$data["deaths"];
+			$p=$data["prestige"];
+			
 			$success = $success && $stmt->execute();
 		}
 		
@@ -182,11 +193,12 @@ class DB {
 	private function getLeaderboardData($from,$to,$sql) {
 		if($stmt = $this->connection->prepare($sql)) {
 			$stmt->bind_param("ii",$from,$to);
-			$stmt->bind_result($rank,$char);
+			$stmt->bind_result($rank,$char,$wins,$losses,$season_wins,$season_losses,$season_kills,$season_deaths,$prestige);
 			$stmt->execute();
 			$result = array();
 			while ($stmt->fetch()) {
-				array_push($result,array("rank"=>$rank,"char_id"=>$char));
+				array_push($result,array("rank"=>$rank,"char_id"=>$char,"wins"=>$wins, "losses"=>$losses,"season_wins" =>$season_wins, 
+				"season_losses"=>$season_losses,"season_kills"=>$season_kills,"season_deaths"=>$season_deaths, "prestige" => $prestige));
 			} 
 			return $result;
 			$stmt->close();

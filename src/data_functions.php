@@ -4,7 +4,7 @@
 $LEADERBOARD_URL = "http://steamcommunity.com/stats/204300/leaderboards/{ID}/?xml=1";
 
 /**
-* Creates an array of all players, with rank => favourite character
+* Creates an array of all players, with rank => {wins, losses, swins, slosses, kills, deaths, prestige, fchar}
 * Param: leaderboard xml, array of character data (invalid data is saved as -1)
 */
 function getLeaderboardData($xml,$chars) {
@@ -13,9 +13,17 @@ function getLeaderboardData($xml,$chars) {
 	foreach ($stats->entries->entry as $e) {
 		$rank = intval($e->rank);
 		$details = str_split($e->details, 8);
+		$wins = hexdec(implode(array_reverse(str_split($details[1],2))));
+		$losses = hexdec(implode(array_reverse(str_split($details[2],2))));
+		$swins = hexdec(implode(array_reverse(str_split($details[7],2))));
+		$slosses = hexdec(implode(array_reverse(str_split($details[8],2))));
+		$kills = hexdec(implode(array_reverse(str_split($details[3],2))));
+		$deaths = hexdec(implode(array_reverse(str_split($details[4],2))));
+		$prestige = hexdec(implode(array_reverse(str_split($details[5],2))));
 		$chid = hexdec(implode(array_reverse(str_split($details[6],2))));
 		$chid = array_key_exists($chid,$chars) ? $chid : -1;
-		$stats_ret[$rank] = $chid;
+		$stats_ret[$rank] = array("wins"=>$wins, "losses"=>$losses, "swins" => $swins, "slosses" => $slosses, 
+		"kills"=> $kills, "deaths"=>$deaths, "prestige"=>$prestige, "fchar" =>$chid);
 	}
 	return $stats_ret;
 }

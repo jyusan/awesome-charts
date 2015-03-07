@@ -11,7 +11,14 @@
 
 CREATE TABLE IF NOT EXISTS `current_leaderboard` (
   `rank` int(11) NOT NULL,
-  `char_id` int(11) NOT NULL
+  `char_id` int(11) NOT NULL DEFAULT '-1',
+  `wins` int(11) NOT NULL DEFAULT '0',
+  `losses` int(11) NOT NULL DEFAULT '0',
+  `season_wins` int(11) NOT NULL DEFAULT '0',
+  `season_losses` int(11) NOT NULL DEFAULT '0',
+  `season_kills` int(11) NOT NULL DEFAULT '0',
+  `season_deaths` int(11) DEFAULT '0',
+  `prestige` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
