@@ -3,10 +3,7 @@
 
 //TODO move all queries here?
 class DB {
-	private $SQL_CREATE_SEASON_TABLE = "CREATE TABLE IF NOT EXISTS season_{ID}_stats (rank int(11) NOT NULL, char_id int(11) NOT NULL,"
-	." wins int(11) NOT NULL DEFAULT '0', losses int(11) NOT NULL DEFAULT '0', season_wins int(11) NOT NULL DEFAULT '0',"
-	." season_losses int(11) NOT NULL DEFAULT '0',season_kills int(11) NOT NULL DEFAULT '0',season_deaths int(11) DEFAULT '0',"
-	." prestige int(11) NOT NULL DEFAULT '0',	PRIMARY KEY(rank)) ";
+	private $SQL_CREATE_SEASON_TABLE = "CREATE TABLE IF NOT EXISTS season_{ID}_stats (rank int(11) NOT NULL, char_id int(11) NOT NULL, wins int(11) NOT NULL DEFAULT '0', losses int(11) NOT NULL DEFAULT '0', season_wins int(11) NOT NULL DEFAULT '0', season_losses int(11) NOT NULL DEFAULT '0',season_kills int(11) NOT NULL DEFAULT '0',season_deaths int(11) DEFAULT '0', prestige int(11) NOT NULL DEFAULT '0',	PRIMARY KEY(rank)) ";
 	private $SQL_GET_CURRENT_SEASON_IDS = "SELECT id,leaderboard_id FROM seasons WHERE start_date <= now() and end_date >= now()";
 	private $SQL_GET_LEADERBOARD_ID = "SELECT leaderboard_id FROM seasons WHERE id = {ID}";
 	private $SQL_SET_CURRENT_UPDATE_TIME = "INSERT INTO key_value_store(id,data) VALUES ('current_updated',UNIX_TIMESTAMP()) ON DUPLICATE KEY UPDATE data=UNIX_TIMESTAMP()";
@@ -196,6 +193,7 @@ class DB {
 			$stmt->bind_result($rank,$char,$wins,$losses,$season_wins,$season_losses,$season_kills,$season_deaths,$prestige);
 			$stmt->execute();
 			$result = array();
+			//TODO aggregate data here?
 			while ($stmt->fetch()) {
 				array_push($result,array("rank"=>$rank,"char_id"=>$char,"wins"=>$wins, "losses"=>$losses,"season_wins" =>$season_wins, 
 				"season_losses"=>$season_losses,"season_kills"=>$season_kills,"season_deaths"=>$season_deaths, "prestige" => $prestige));

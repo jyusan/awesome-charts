@@ -10,8 +10,8 @@
 <title>Awesome charts</title>
 <link rel="stylesheet" type="text/css" href="main.css">
 </head>
-<body>	
-<center><h1>Awesome charts</h1>
+<body>
+<center><img src="img/logo.png"	class="logoImg"><br/>
 An experimental website for displaying Awesomenauts statistics<br/>
 The website stores the favourite characters of the top 5000 ranked players and has different display options for data enthusiasts.
 <hr/>
@@ -21,8 +21,11 @@ The website stores the favourite characters of the top 5000 ranked players and h
 		<td colspan="2"><b>Seasonal statistics</b></td>
 	</tr>
 	<tr>
-		<td colspan="2" class="menu_cell">
-			<a href="piechart.php"><img src="img/piechart.png" style="width: 50%;"/><br/>Pie chart display</a>
+		<td class="menu_cell">
+			<a href="piechart.php"><img src="img/piechart.png" style="width:50%;"/><br/>Pie chart of character usage</a>
+		</td>
+		<td class="menu_cell">
+			<a href="columnchart.php"><img src="img/columnchart.png" style="width:50%;"/><br/>Column chart of user data</a>
 		</td>
 	</tr>
 	
@@ -31,10 +34,10 @@ The website stores the favourite characters of the top 5000 ranked players and h
 	</tr>
 	<tr>
 		<td class="menu_cell">
-			<a href="linechart.php"><img src="img/linechart.png" style="width: 100%"/><br/>Line chart display</a>
+			<a href="linechart.php"><img src="img/linechart.png" style="width:50%;"/><br/>Line chart display</a>
 		</td>
 		<td class="menu_cell">
-			<a href="stackedchart.php"><img src="img/stackedchart.png" style="width: 100%;"/><br/>Stacked area chart display</a>
+			<a href="stackedchart.php"><img src="img/stackedchart.png" style="width:50%;"/><br/>Stacked area chart display</a>
 		</td>
 	</tr>
 </table>

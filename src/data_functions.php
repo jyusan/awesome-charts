@@ -100,7 +100,7 @@ function getSeasonList() {
 	return NULL;
 }
 
-function getDataForSingleSeason($first,$last,$season,$charlist) {
+function getDataForSingleSeason($first,$last,$season,$charlist,$sortby) {
 	if(isset($season)) {
 		//Historic data
 		$raw_data = DB::getInstance()->getHistoricData($first,$last,$season);
@@ -112,7 +112,7 @@ function getDataForSingleSeason($first,$last,$season,$charlist) {
 	//Init statistics array, structure: character id => {"sum","rank avg"}
 	$data = array();
 	foreach($charlist as $id=>$n) {
-		$data[$id] = array("sum" => 0, "rank_avg" => 0);
+		$data[$id] = array("sum" => 0, "rank_avg" => 0, "winratio_avg" => 0, "season_winratio_avg" => 0, "season_kdratio_avg" => 0, "prestige_avg" => 0);
 	}
 	
 	//
@@ -123,6 +123,10 @@ function getDataForSingleSeason($first,$last,$season,$charlist) {
 		if(array_key_exists($char,$charlist)) {
 			$data[$char]["sum"] += 1;
 			$data[$char]["rank_avg"] += $row["rank"];
+			$data[$char]["winratio_avg"] += ($row["wins"]/($row["losses"]+$row["wins"]));
+			$data[$char]["season_winratio_avg"] += ($row["season_wins"]/($row["season_losses"]+$row["season_wins"]));
+			$data[$char]["season_kdratio_avg"] += ($row["season_deaths"] != 0)?($row["season_kills"]/$row["season_deaths"]):$row["season_kills"];
+			$data[$char]["prestige_avg"] += $row["prestige"];			
 		}
 	}
 	
@@ -131,22 +135,64 @@ function getDataForSingleSeason($first,$last,$season,$charlist) {
 	foreach($data as $key=> $row) {
 		$sum = $row["sum"];
 		$ravg = (int)$row["rank_avg"];
-		if ($ravg != 0) {
+		$wravg = (double)$row["winratio_avg"];
+		$swravg = (double)$row["season_winratio_avg"];
+		$skdravg = (double)$row["season_kdratio_avg"];
+		$pavg = (int)$row["prestige_avg"];	
+		if ($sum != 0) {
 			$ravg /= $sum;
+			$wravg /= $sum;
+			$swravg /= $sum;
+			$skdravg /= $sum;
+			$pavg /= $sum;			
 		} else {
 			//No usage of the character, when sorted by rank it should be at the end
-			$ravg = 5000;
+			$ravg = 0;
 		}
-		array_push($data_sortable, array("id"=>$key,"sum"=>$sum,"rank_avg"=>(int)$ravg));
+		array_push($data_sortable, array("id"=>$key,"sum"=>$sum,"rank_avg"=>(int)$ravg,"winratio_avg"=>$wravg, "season_winratio_avg"=>$swravg,"season_kdratio_avg"=>$skdravg,"prestige_avg"=>$pavg));
 	}
 
-	usort($data_sortable, 'sortBySum');	
-	return array_reverse($data_sortable); //desc order
+	usort($data_sortable, $sortby);	
+	if ($sortby == "sortByRank") {
+		return $data_sortable; //ascending order
+	} else {
+		return array_reverse($data_sortable); //desc order
+	}
 	
 }
 
 function sortBySum($a, $b) {
    return $a["sum"] - $b["sum"];
+}
+
+function sortByWinRatio($a, $b) {
+   return doubleCompare($a["winratio_avg"],$b["winratio_avg"]);
+}
+
+function sortBySeasonWinRatio($a, $b) {
+   return doubleCompare($a["season_winratio_avg"],$b["season_winratio_avg"]);
+}
+
+function sortBySeasonKDRatio($a, $b) {
+   return doubleCompare($a["season_kdratio_avg"],$b["season_kdratio_avg"]);
+}
+
+function sortByPrestige($a, $b) {
+   return doubleCompare($a["prestige_avg"],$b["prestige_avg"]);
+}
+
+function sortByRank($a, $b) {
+   return $a["rank_avg"] - $b["rank_avg"];
+}
+
+function doubleCompare($a,$b) {
+	if ($a<$b) {
+		return -1;
+	} else if ($a==$b) {
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
 function getLastUpdateTime() {

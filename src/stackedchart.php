@@ -34,7 +34,7 @@ foreach($characters as $id=>$v) {
 }
 
 foreach($season_list as $id=>$stuff) {
-	$data = getDataForSingleSeason($first_rank,$last_rank,(($id==$current_season)?NULL:$id),$characters); //returns id,sum,rank_avg
+	$data = getDataForSingleSeason($first_rank,$last_rank,(($id==$current_season)?NULL:$id),$characters,"sortBySum"); //returns id,sum,rank_avg
 	foreach ($data as $row) {
 		$stats[$row["id"]][$id]=$row["sum"];
 	}
@@ -132,6 +132,7 @@ foreach($season_list as $id=>$stuff) {
 </script>
 </head>
 <body>
+<div id="logo"><a href="index.php" title="Back to home"><img src="img/logo.png"	class="logoImg"/></a></div>
 <center>
 <h1>Character usage statistics over the seasons - stacked area</h1>
 <div id="control" >

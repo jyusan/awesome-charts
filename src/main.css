@@ -37,6 +37,15 @@ a:hover, a:active {
 	background-color: rgb(176,234,234);
 }
 
+/* logo */
+.logoImg {
+	width: 25%;
+}
+
+#logo {
+	text-align: center;
+}
+
 /* chart */
 div#chartContainer {
 	color: black;
@@ -45,6 +54,11 @@ div#chartContainer {
 /*datatable*/
 thead tr td {
 	font-weight: bold;
+}
+
+table#dataTable tbody tr td {
+	text-align: center;
+	border-left: 1px solid rgba(255,255,255,0.5);
 }
 
 td.charname {
