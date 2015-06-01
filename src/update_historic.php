@@ -16,6 +16,8 @@
  if(checkSeasonTable($penultimate_season)) {
 	 echo "Historic data for season $penultimate_season is already saved.";
  } else {
+	 
+	 $chars = getCharacterData();
 	$ids = getLeaderboardId($penultimate_season);
 	$xml = getLeaderboardXML($ids[1]);
 	$data = getLeaderboardData($xml,$chars);
