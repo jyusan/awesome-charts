@@ -1,13 +1,3 @@
-
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
-
-
 --
 -- Table structure for table `characters`
 --
@@ -15,7 +5,8 @@
 CREATE TABLE IF NOT EXISTS `characters` (
   `id` int(11) NOT NULL COMMENT 'unique character id used in other tables',
   `name` text NOT NULL COMMENT 'character name',
-  `short_name` varchar(20) NOT NULL
+  `short_name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -32,8 +23,10 @@ INSERT INTO `characters` (`id`, `name`, `short_name`) VALUES
 (7, 'Derpl Zork', 'Derpl'),
 (8, 'Coco Nebulon', 'Coco'),
 (9, 'Skølldir', 'Skølldir'),
+(10, 'Ksenia', 'Ksenia'),
 (11, 'Raelynn', 'Raelynn'),
 (12, 'Gnaw', 'Gnaw'),
+(13, 'Rocco', 'Rocco'),
 (14, 'Ayla', 'Ayla'),
 (16, 'Vinnie & Spike', 'Vinnie'),
 (18, 'Genji the Pollen Prophet', 'Genji'),
@@ -43,17 +36,7 @@ INSERT INTO `characters` (`id`, `name`, `short_name`) VALUES
 (22, 'Sentry X-58', 'Sentry'),
 (23, 'Skree', 'Skree'),
 (24, 'Scoop of Justice', 'Scoop'),
-(25,'Nibbs','Nibbs');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `characters`
---
-ALTER TABLE `characters`
- ADD PRIMARY KEY (`id`);
+(25, 'Nibbs', 'Nibbs');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
